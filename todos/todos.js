@@ -33,11 +33,19 @@ todoForm.addEventListener('submit', async (e) => {
 
 async function displayTodos() {
     todosEl.textContent = '';
-    const response = await getTodos();
-    todoData = response;
+    todoData = await getTodos();
+
     for (let todo of todoData) {
         const listItemEl = document.createElement('p');
         listItemEl.textContent = todo.todo;
+        if (todo.complete) {
+            listItemEl.classList.add('complete');
+        } else {
+            listItemEl.addEventListener('click', async () => {
+                await completeTodo(todo.id);
+                displayTodos();
+            });
+        }
         todosEl.append(listItemEl);
     }
 

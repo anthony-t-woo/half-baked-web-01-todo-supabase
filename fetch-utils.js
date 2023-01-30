@@ -28,6 +28,8 @@ export async function getTodos() {
 }
 
 export async function completeTodo(id) {
+    const response = await client.from('todos').update({ complete: true }).eq('id', id);
+    console.log(response);
     // find the and update (set complete to true), the todo that matches the correct id
     // once you have a response from supabase, comment this back in:
     // return checkError(response);
