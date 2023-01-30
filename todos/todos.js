@@ -17,52 +17,46 @@ const deleteButton = document.querySelector('.delete-button');
 
 // let some todo state (an array)
 let todoData = [];
-
+// on submit,
 todoForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+    // create a todo in supabase using form data
     const todo = new FormData(todoForm);
     const data = { todo: todo.get('todo') };
     await createTodo(data);
-    await displayTodos();
-    todoForm.reset();
-    // on submit,
-    // create a todo in supabase using for data
     // reset the form DOM element
+    todoForm.reset();
     // and display the todos
+    await displayTodos();
 });
 
 async function displayTodos() {
+    // clear the container (.textContent = '')
     todosEl.textContent = '';
+    // fetch the user's todos from supabase
     todoData = await getTodos();
-
+    // loop through the user's todos
     for (let todo of todoData) {
-        const listItemEl = document.createElement('p');
-        listItemEl.textContent = todo.todo;
-        if (todo.complete) {
-            listItemEl.classList.add('complete');
-        } else {
-            listItemEl.addEventListener('click', async () => {
+        // for each todo, render a new todo DOM element using your render function
+        const response = renderTodo(todo);
+        // then add an event listener to each todo (only adds event listener to incomplete items)
+        if (!todo.complete) {
+            response.addEventListener('click', async () => {
+                // on click, update the todo in supabase
                 await completeTodo(todo.id);
+                // then (shockingly!) call displayTodos() to refresh the list
                 displayTodos();
             });
         }
-        todosEl.append(listItemEl);
+        // append the rendered todo DOM element to the todosEl
+        todosEl.append(response);
     }
-
-    // clear the container (.textContent = '')
-    // fetch the user's todos from supabase
-    // loop through the user's todos
-    // for each todo, render a new todo DOM element using your render function
-    // then add an event listener to each todo
-    // on click, update the todo in supabase
-    // then (shockingly!) call displayTodos() to refresh the list
-    // append the rendered todo DOM element to the todosEl
 }
 
 window.addEventListener('load', async () => {
-    displayTodos();
-    // fetch the todos and store in state
+    // fetch the todos and store in state (already done in the displayTodos function)
     // call displayTodos
+    displayTodos();
 });
 
 logoutButton.addEventListener('click', () => {
@@ -70,8 +64,8 @@ logoutButton.addEventListener('click', () => {
 });
 
 deleteButton.addEventListener('click', async () => {
-    await deleteAllTodos();
-    displayTodos();
     // delete all todos
+    await deleteAllTodos();
     // then refetch and display the updated list of todos
+    displayTodos();
 });

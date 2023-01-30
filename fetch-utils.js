@@ -7,34 +7,32 @@ const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 export async function createTodo(todo) {
     // create a single incomplete todo with the correct 'todo' property for this user in supabase
     const response = await client.from('todos').insert([todo]);
-    console.log(response);
     // once you have a response from supabase, comment this back in:
     return checkError(response);
 }
 
 export async function deleteAllTodos() {
     const response = await client.from('todos').delete().eq('user_id', getUser().id);
-
     // delete all todos for this user in supabase
     // once you have a response from supabase, comment this back in:
-    // return checkError(response);
+    return checkError(response);
 }
 
 export async function getTodos() {
-    const { data, error } = await client.from('todos').select('*');
-    return data;
+    const response = await client.from('todos').select('*');
+    return response.data;
 
     // get all todos for this user from supabase
     // once you have a response from supabase, comment this back in:
-    // return checkError(response);
+    return checkError(response);
 }
 
 export async function completeTodo(id) {
     const response = await client.from('todos').update({ complete: true }).eq('id', id);
-    console.log(response);
+
     // find the and update (set complete to true), the todo that matches the correct id
     // once you have a response from supabase, comment this back in:
-    // return checkError(response);
+    return checkError(response);
 }
 
 export function getUser() {
