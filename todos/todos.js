@@ -18,7 +18,11 @@ const deleteButton = document.querySelector('.delete-button');
 // let some todo state (an array)
 
 todoForm.addEventListener('submit', async (e) => {
-    // on submit, 
+    e.preventDefault();
+    const todo = new FormData(todoForm);
+    const data = { todo: todo.get('todo') };
+    await createTodo(data);
+    // on submit,
     // create a todo in supabase using for data
     // reset the form DOM element
     // and display the todos
@@ -27,13 +31,12 @@ todoForm.addEventListener('submit', async (e) => {
 async function displayTodos() {
     // clear the container (.textContent = '')
     // fetch the user's todos from supabase
-
     // loop through the user's todos
-        // for each todo, render a new todo DOM element using your render function
-        // then add an event listener to each todo
-            // on click, update the todo in supabase
-            // then (shockingly!) call displayTodos() to refresh the list
-        // append the rendered todo DOM element to the todosEl
+    // for each todo, render a new todo DOM element using your render function
+    // then add an event listener to each todo
+    // on click, update the todo in supabase
+    // then (shockingly!) call displayTodos() to refresh the list
+    // append the rendered todo DOM element to the todosEl
 }
 
 window.addEventListener('load', async () => {
