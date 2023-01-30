@@ -38,10 +38,10 @@ async function displayTodos() {
     // loop through the user's todos
     for (let todo of todoData) {
         // for each todo, render a new todo DOM element using your render function
-        const response = renderTodo(todo);
+        const rendering = renderTodo(todo);
         // then add an event listener to each todo (only adds event listener to incomplete items)
         if (!todo.complete) {
-            response.addEventListener('click', async () => {
+            rendering.addEventListener('click', async () => {
                 // on click, update the todo in supabase
                 await completeTodo(todo.id);
                 // then (shockingly!) call displayTodos() to refresh the list
@@ -49,7 +49,7 @@ async function displayTodos() {
             });
         }
         // append the rendered todo DOM element to the todosEl
-        todosEl.append(response);
+        todosEl.append(rendering);
     }
 }
 
