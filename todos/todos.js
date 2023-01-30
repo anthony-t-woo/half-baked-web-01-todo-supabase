@@ -24,6 +24,7 @@ todoForm.addEventListener('submit', async (e) => {
     const data = { todo: todo.get('todo') };
     await createTodo(data);
     await displayTodos();
+    todoForm.reset();
     // on submit,
     // create a todo in supabase using for data
     // reset the form DOM element
@@ -51,6 +52,7 @@ async function displayTodos() {
 }
 
 window.addEventListener('load', async () => {
+    displayTodos();
     // fetch the todos and store in state
     // call displayTodos
 });
