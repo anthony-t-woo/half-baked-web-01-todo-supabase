@@ -16,12 +16,14 @@ const logoutButton = document.querySelector('#logout');
 const deleteButton = document.querySelector('.delete-button');
 
 // let some todo state (an array)
+let todoData = [];
 
 todoForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const todo = new FormData(todoForm);
     const data = { todo: todo.get('todo') };
     await createTodo(data);
+    await displayTodos();
     // on submit,
     // create a todo in supabase using for data
     // reset the form DOM element
@@ -29,6 +31,15 @@ todoForm.addEventListener('submit', async (e) => {
 });
 
 async function displayTodos() {
+    todosEl.textContent = '';
+    const response = await getTodos();
+    todoData = response;
+    for (let todo of todoData) {
+        const listItemEl = document.createElement('p');
+        listItemEl.textContent = todo.todo;
+        todosEl.append(listItemEl);
+    }
+
     // clear the container (.textContent = '')
     // fetch the user's todos from supabase
     // loop through the user's todos

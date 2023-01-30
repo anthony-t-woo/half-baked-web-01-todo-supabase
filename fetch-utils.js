@@ -9,7 +9,7 @@ export async function createTodo(todo) {
     const response = await client.from('todos').insert([todo]);
     console.log(response);
     // once you have a response from supabase, comment this back in:
-    // return checkError(response);
+    return checkError(response);
 }
 
 export async function deleteAllTodos() {
@@ -19,6 +19,9 @@ export async function deleteAllTodos() {
 }
 
 export async function getTodos() {
+    const { data, error } = await client.from('todos').select('*');
+    return data;
+
     // get all todos for this user from supabase
     // once you have a response from supabase, comment this back in:
     // return checkError(response);
