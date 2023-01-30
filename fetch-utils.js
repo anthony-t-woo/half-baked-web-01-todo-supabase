@@ -13,6 +13,8 @@ export async function createTodo(todo) {
 }
 
 export async function deleteAllTodos() {
+    const response = await client.from('todos').delete().eq('user_id', getUser().id);
+
     // delete all todos for this user in supabase
     // once you have a response from supabase, comment this back in:
     // return checkError(response);
