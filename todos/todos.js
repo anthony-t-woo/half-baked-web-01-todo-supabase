@@ -5,6 +5,7 @@ import {
     getTodos,
     logout,
     deleteAllTodos,
+    getUser,
 } from '../fetch-utils.js';
 import { renderTodo } from '../render-utils.js';
 
@@ -14,6 +15,7 @@ const todosEl = document.querySelector('.todos');
 const todoForm = document.querySelector('.todo-form');
 const logoutButton = document.querySelector('#logout');
 const deleteButton = document.querySelector('.delete-button');
+const greetingEl = document.querySelector('#greeting');
 
 // let some todo state (an array)
 let todoData = [];
@@ -55,6 +57,9 @@ async function displayTodos() {
 }
 
 window.addEventListener('load', async () => {
+    if (getUser()) {
+        greetingEl.textContent = `logged in as ${getUser().email}`;
+    }
     // fetch the todos and store in state (already done in the displayTodos function)
     // call displayTodos
     displayTodos();
