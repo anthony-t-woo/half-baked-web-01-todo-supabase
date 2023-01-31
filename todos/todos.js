@@ -36,7 +36,7 @@ async function displayTodos() {
     // fetch the user's todos from supabase
     todoData = await getTodos();
     // loop through the user's todos
-    for (let todo of todoData) {
+    todoData.forEach((todo) => {
         // for each todo, render a new todo DOM element using your render function
         const rendering = renderTodo(todo);
         // then add an event listener to each todo (only adds event listener to incomplete items)
@@ -50,7 +50,8 @@ async function displayTodos() {
         }
         // append the rendered todo DOM element to the todosEl
         todosEl.append(rendering);
-    }
+        // for (let todo of todoData) {
+    });
 }
 
 window.addEventListener('load', async () => {
